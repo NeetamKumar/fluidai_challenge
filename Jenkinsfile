@@ -1,21 +1,11 @@
 pipeline {
     agent any
 
-    stages {
+    environment {
+        HOME = '/home/ubuntu'
+    }
 
-        stage('Debug Environment') {
-            steps {
-                sh '''
-                    whoami
-                    echo "HOME=$HOME"
-                    which minikube
-                    which kubectl
-                    minikube profile list
-                    minikube status
-                    kubectl get nodes
-                '''
-            }
-        }
+    stages {
 
         stage('Build Image') {
             steps {
