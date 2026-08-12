@@ -6,7 +6,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/NeetamKumar/fluidai_challenge.git'
+                checkout scm
             }
         }
 
