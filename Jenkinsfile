@@ -1,19 +1,32 @@
-pipeline{
+pipeline {
+
     agent any
-    stages{
-        stage('Build'){
-            steps{
-                echo 'Building...'
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
             }
         }
-        stage('Test'){
-            steps{
-                echo 'Testing...'
+
+        stage('Build Image') {
+            steps {
+                sh 'minikube image build -t fluidai-backend:latest .'
             }
         }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying...'
+
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                sh 'kubectl rollout status deployment/postgres'
+                sh 'kubectl rollout status deployment/backend'
+                sh 'kubectl get pods'
             }
         }
     }
