@@ -1,12 +1,19 @@
 pipeline {
-
     agent any
 
     stages {
 
-        stage('Checkout') {
+        stage('Debug Environment') {
             steps {
-                git 'https://github.com/NeetamKumar/fluidai_challenge.git'
+                sh '''
+                    whoami
+                    echo "HOME=$HOME"
+                    which minikube
+                    which kubectl
+                    minikube profile list
+                    minikube status
+                    kubectl get nodes
+                '''
             }
         }
 
